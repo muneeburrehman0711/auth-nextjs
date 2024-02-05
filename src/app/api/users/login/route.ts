@@ -29,7 +29,15 @@ export async function POST(request:NextRequest) {
             email:user.email
         }
         //create token
-        const token = await jwt.sign(tokenData,process.env.TOKEN_SECRET!,{expiresIn:"id"})
+        const token = await jwt.sign(tokenData,process.env.TOKEN_SECRET!,{expiresIn:"1d"})
+        const response = NextResponse.json({
+            message:"login successful",
+            success: true,
+        })
+        response.cookies.set("token",token,{
+            httpOnly:true,
+        })
+        return response;
 
         
     } catch (error:any) {
